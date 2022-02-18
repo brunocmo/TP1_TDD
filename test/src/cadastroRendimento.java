@@ -26,6 +26,13 @@ public class cadastroRendimento {
         Assert.assertEquals(8000.00f, testeSimulador.getRendimentoTotal(), 0.0f);
     }
 
+    @Test
+    public void testRealizarDoisCadastrosRendimento() {
+        testeSimulador.cadastrarRendimento("Salário", 10000.00f);
+        testeSimulador.cadastrarRendimento("Aluguel", 2000.00f);
+        Assert.assertEquals(12000.00f, testeSimulador.getRendimentoTotal(), 0.0f);
+    }
+
     @Ignore
     @Test
     public void DescricaoEmBrancoException() {

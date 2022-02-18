@@ -1,13 +1,23 @@
 package com.unb;
 
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
+
 public class calculoIRPF {
 
     private float rendimentoTotal;
-    private String nomeDoRendimento;
+    private List<Rendimentos> rendimentos;
+
+    public calculoIRPF() {
+        rendimentos = new LinkedList<Rendimentos>();
+    }
 
     public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) {
-        this.nomeDoRendimento = nomeDoRendimento;
-        this.rendimentoTotal = rendimentoTotal;
+        Rendimentos novoRendimento = new Rendimentos(nomeDoRendimento, rendimentoTotal);
+        this.rendimentos.add(novoRendimento);
+
+        this.rendimentoTotal += rendimentoTotal;
     }
 
     public float getRendimentoTotal() {
