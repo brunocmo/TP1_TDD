@@ -25,7 +25,6 @@ public class calculoIRPF {
 
         Rendimentos novoRendimento = new Rendimentos(nomeDoRendimento, rendimentoTotal);
         this.rendimentos.add(novoRendimento);
-
         this.rendimentoTotal += rendimentoTotal;
     }
 
