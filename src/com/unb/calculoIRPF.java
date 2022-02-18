@@ -11,7 +11,7 @@ public class calculoIRPF {
     }
 
     public float getRendimentoTotal() {
-        return 10000.00f;
+        return rendimentoTotal;
     }
 
 }
