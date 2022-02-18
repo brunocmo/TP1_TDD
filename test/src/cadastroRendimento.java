@@ -1,3 +1,5 @@
+import com.unb.DescricaoEmBrancoException;
+import com.unb.ValorRendimentoInvalidoException;
 import com.unb.calculoIRPF;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,15 +35,13 @@ public class cadastroRendimento {
         Assert.assertEquals(12000.00f, testeSimulador.getRendimentoTotal(), 0.0f);
     }
 
-    @Ignore
-    @Test
-    public void DescricaoEmBrancoException() {
-        //TODO Não permitir descrição em branco
+    @Test(expected = DescricaoEmBrancoException.class)
+    public void testRendimentoEmBranco() {
+        testeSimulador.cadastrarRendimento("", 1000.00f);
     }
 
-    @Ignore
-    @Test
-    public  void ValorRendimentoInvalidoException() {
-        //TODO Não permitir informar valores de rendimentos em branco ou inválidos (negativos por exemplo)
+    @Test(expected = ValorRendimentoInvalidoException.class)
+    public void testValorInvalido() {
+        testeSimulador.cadastrarRendimento("Salário", 0.0f);
     }
 }

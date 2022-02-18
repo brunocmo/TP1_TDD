@@ -13,7 +13,16 @@ public class calculoIRPF {
         rendimentos = new LinkedList<Rendimentos>();
     }
 
-    public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) {
+    public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) throws DescricaoEmBrancoException {
+
+        if( nomeDoRendimento == "" || nomeDoRendimento == null) {
+            throw new DescricaoEmBrancoException();
+        }
+
+        if( rendimentoTotal <= 0 ) {
+            throw new ValorRendimentoInvalidoException();
+        }
+
         Rendimentos novoRendimento = new Rendimentos(nomeDoRendimento, rendimentoTotal);
         this.rendimentos.add(novoRendimento);
 
