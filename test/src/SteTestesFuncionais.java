@@ -4,7 +4,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Categories.class)
 @Suite.SuiteClasses({
-        cadastroRendimento.class,
+        cadastroRendimentoTestFuncionais.class,
+        cadastroRendimentoTestExcecoes.class
 })
 @Categories.IncludeCategory(TesteFuncional.class)
 @Categories.ExcludeCategory(TesteExececao.class)
