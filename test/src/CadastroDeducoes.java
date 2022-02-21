@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-public class cadastroDeducoes {
+public class CadastroDeducoes {
     @Test
     public void cadastro() {
         //TODO

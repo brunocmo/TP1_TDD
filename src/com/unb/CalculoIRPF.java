@@ -1,15 +1,14 @@
 package com.unb;
 
-import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class calculoIRPF {
+public class CalculoIRPF {
 
     private float rendimentoTotal;
     private List<Rendimentos> rendimentos;
 
-    public calculoIRPF() {
+    public CalculoIRPF() {
         rendimentos = new LinkedList<Rendimentos>();
     }
 
