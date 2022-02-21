@@ -1,22 +1,34 @@
 package com.unb;
 
-import java.awt.*;
+
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
+
 
 public class CalculoIRPF {
 
     private float rendimentoTotal;
     private List<Rendimentos> rendimentos;
-    private float[] previdenciaOficial;
-    private String[] descricaoPrevidenciaOficial;
+
+    private float deducaoTotal;
+    private float deducaoAlimenticiaTotal;
+
+    private float deducaoOficialTotal;
+    private List<PrevidenciaOficial> previdenciaOficial;
+
+    private String nomeDependente;
+    private String dataNascimento;
     private int qtdDependentes;
+    
+    private float deducaoOutraDeducoesTotal;
+    private List<OutrasDeducoes> outrasDeducoes;
 
     public CalculoIRPF() {
         rendimentos = new LinkedList<Rendimentos>();
-        previdenciaOficial = new float[0];
-        descricaoPrevidenciaOficial = new String[0];
+        previdenciaOficial = new LinkedList<PrevidenciaOficial>();
+        outrasDeducoes = new LinkedList<OutrasDeducoes>();
+
     }
 
     public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) throws DescricaoEmBrancoException {
@@ -38,41 +50,45 @@ public class CalculoIRPF {
         return rendimentoTotal;
     }
 
-    public void cadastrarPrevidenciaOficial(String tipoPrevidenciaOficial, float v) {
-        float tempValor[] = new float[previdenciaOficial.length + 1];
-        String tempDescricao[] = new String[descricaoPrevidenciaOficial.length + 1];
+    public float getDeducaoTotal() {
+        float resultado;
 
-        for (int i = 0; i < previdenciaOficial.length; i++){
-            tempValor[i] = this.previdenciaOficial[i];
-            tempDescricao[i] = this.descricaoPrevidenciaOficial[i];
-        }
+        resultado = deducaoOficialTotal + getTotalValorDependentes() + deducaoAlimenticiaTotal + deducaoOutraDeducoesTotal;
 
-        tempValor[previdenciaOficial.length] = v;
-        tempDescricao[previdenciaOficial.length] = tipoPrevidenciaOficial;
+        return resultado;
+    }
 
-        this.descricaoPrevidenciaOficial = tempDescricao;
-        this.previdenciaOficial = tempValor;
+    public float getDeducaoAlimenticiaTotal() { return deducaoAlimenticiaTotal; };
+    public float getDeducaoOficialTotal() { return  deducaoOficialTotal; };
+    public float getOutrasDeducoesTotal() { return deducaoOutraDeducoesTotal; };
 
+    public void cadastrarPrevidenciaOficial(String nomeContribuicaoOficial, float valorDeducao) {
+        PrevidenciaOficial novaPrevidencia = new PrevidenciaOficial(nomeContribuicaoOficial, valorDeducao);
+
+        this.previdenciaOficial.add(novaPrevidencia);
+        this.deducaoOficialTotal += valorDeducao;
 
     }
 
-    public float getTotalDeducaoPrevidenciaOficial() {
-        float totalPrevidenciaOficial = 0;
-
-        for (float v : previdenciaOficial){
-            totalPrevidenciaOficial += v;
-        }
-        totalPrevidenciaOficial += getTotalValorDependentes();
-
-        return totalPrevidenciaOficial;
+    public void cadastrarPensaoAlimenticia(float valorPensao) {
+        this.deducaoAlimenticiaTotal += valorPensao;
     }
 
-    public void cadastrarDependentes(int qtd) {
-        this.qtdDependentes = qtd;
+    public void cadastrarDependentes(String nomeDependente, String dataNascimento) {
+        this.qtdDependentes += 1;
+        this.nomeDependente = nomeDependente;
+        this.dataNascimento = dataNascimento;
+
     }
 
     public float getTotalValorDependentes() {
         float valorIndDeducao = 189.59f;
         return valorIndDeducao * this.qtdDependentes;
+    }
+
+    public void cadastrarOutrasDeducoes(String nomeOutraDeducao, float valorOutraDeducoes) {
+        OutrasDeducoes novaDeducao = new OutrasDeducoes(nomeOutraDeducao, valorOutraDeducoes);
+        outrasDeducoes.add(novaDeducao);
+        this.deducaoOutraDeducoesTotal += valorOutraDeducoes;
     }
 }

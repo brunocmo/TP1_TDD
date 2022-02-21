@@ -1,17 +1,17 @@
 import com.unb.DescricaoEmBrancoException;
 import com.unb.ValorRendimentoInvalidoException;
-import com.unb.calculoIRPF;
+import com.unb.CalculoIRPF;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-public class cadastroRendimentoTestExcecoes {
+public class CadastroRendimentoTestExcecoes {
 
-    private calculoIRPF testeSimulador;
+    private CalculoIRPF testeSimulador;
 
     @Before
     public void setup() {
-        testeSimulador = new calculoIRPF();
+        testeSimulador = new CalculoIRPF();
     }
 
     @Test(expected = DescricaoEmBrancoException.class)

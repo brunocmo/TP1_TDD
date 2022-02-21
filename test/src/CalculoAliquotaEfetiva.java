@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-public class calculoAliquotaEfetiva {
+public class CalculoAliquotaEfetiva {
     @Test
     public void outroTeste() {
         //TODO

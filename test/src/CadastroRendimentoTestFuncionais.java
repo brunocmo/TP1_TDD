@@ -1,4 +1,4 @@
-import com.unb.calculoIRPF;
+import com.unb.CalculoIRPF;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class cadastroRendimentoTestFuncionais {
+public class CadastroRendimentoTestFuncionais {
 
-    private calculoIRPF testeSimulador;
+    private CalculoIRPF testeSimulador;
 
     //Atributos do objeto de teste
     Object[][] rendimentos;
@@ -20,11 +20,10 @@ public class cadastroRendimentoTestFuncionais {
 
     @Before
     public void setup() {
-        testeSimulador = new calculoIRPF();
+        testeSimulador = new CalculoIRPF();
     }
 
-
-    public cadastroRendimentoTestFuncionais(Object[][] rendimentos, float valorEsperado) {
+    public CadastroRendimentoTestFuncionais(Object[][] rendimentos, float valorEsperado) {
         this.rendimentos = rendimentos;
         this.valorEsperado = valorEsperado;
     }

@@ -4,5 +4,5 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ SteTestesFuncionais.class, SteTestesExcecoes.class })
 
-public class calculoIRPFTest {
+public class CalculoIRPFTest {
 }
