@@ -45,20 +45,18 @@ public class CalculoIRPF {
     public float getRendimentoTotal() {
         return rendimentoTotal;
     }
+
     public float getDeducaoTotal() {
         float resultado;
 
         resultado = deducaoOficialTotal + getTotalValorDependentes() + deducaoAlimenticiaTotal + deducaoOutraDeducoes;
 
-        return (1000f+500f+189.59f+800f);
+        return resultado;
     }
-    public float getDeducaoAlimenticiaTotal() { return 500f; };
-    public float getDeducaoOficialTotal() { return  1000f; };
-    public float getOutrasDeducoesTotal() { return 800.00f; };
-    public float getTotalValorDependentes() {
-        float valorIndDeducao = 189.59f;
-        return 189.59f;
-    }
+
+    public float getDeducaoAlimenticiaTotal() { return deducaoAlimenticiaTotal; };
+    public float getDeducaoOficialTotal() { return  deducaoOficialTotal; };
+    public float getOutrasDeducoesTotal() { return deducaoOutraDeducoes; };
 
     public void cadastrarPrevidenciaOficial(String nomeContribuicaoOficial, float valorDeducao) {
         this.deducaoOficialTotal = valorDeducao;
@@ -75,7 +73,10 @@ public class CalculoIRPF {
         this.dataNascimento = dataNascimento;
     }
 
-
+    public float getTotalValorDependentes() {
+        float valorIndDeducao = 189.59f;
+        return valorIndDeducao * this.qtdDependentes;
+    }
 
     public void cadastrarOutrasDeducoes(String nomeOutraDeducao, float valorOutraDeducoes) {
         this.nomeOutraDeducao = nomeOutraDeducao;
