@@ -23,7 +23,6 @@ public class CadastroRendimentoTestFuncionais {
         testeSimulador = new CalculoIRPF();
     }
 
-
     public CadastroRendimentoTestFuncionais(Object[][] rendimentos, float valorEsperado) {
         this.rendimentos = rendimentos;
         this.valorEsperado = valorEsperado;

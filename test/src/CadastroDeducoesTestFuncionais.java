@@ -1,100 +1,155 @@
 import com.unb.CalculoIRPF;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Calendar;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(Parameterized.class)
 public class CadastroDeducoesTestFuncionais {
 
-    CalculoIRPF simulador;
+    private CalculoIRPF simulador;
 
     @Before
     public void setup(){
         simulador = new CalculoIRPF();
     }
 
-    @Test
-    public void cadastroPrevidenciaOficial1() {
-        simulador.cadastrarPrevidenciaOficial("Contribuicao compulsoria", 1000f);
-        assertEquals(1000f, simulador.getDeducaoOficialTotal(), 0f);
+    Object[][] contribuicoes;
+    float resultadoDeducoesOficial;
+    float resultadoDependentes;
+    float resultadoPensao;
+    float resultadoOutrasDeducoes;
+    float resultadoDeducaoTotal;
+
+    public CadastroDeducoesTestFuncionais(
+            Object[][] contribuicoes,
+            float resultadoDeducoesOficial,
+            float resultadoDependentes,
+            float resultadoPensao,
+            float resultadoOutrasDeducoes,
+            float resultadoDeducaoTotal
+            ) {
+        this.contribuicoes = contribuicoes;
+        this.resultadoDeducoesOficial = resultadoDeducoesOficial;
+        this.resultadoDependentes = resultadoDependentes;
+        this.resultadoPensao = resultadoPensao;
+        this.resultadoOutrasDeducoes = resultadoOutrasDeducoes;
+        this.resultadoDeducaoTotal = resultadoDeducaoTotal;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> getParameters() {
+        Object[][] parametros = new Object[][]{
+                {new Object[][]{
+                        {
+                            "Contribuicao Compulsoria", 1000f,
+                                "Pedrinho", "03/08/2019",
+                                500f,
+                                "FAPI", 300f
+                        },
+                }, 1000f, 189.59f, 500f, 300f, (1000f + 189.59f + 500f + 300f) },
+                {new Object[][]{
+                        {
+                                "Outra contribuicao oficial", 200f,
+                                "Joaozinho", "13/02/2021",
+                                800f,
+                                "Funpresp", 500f
+                        },
+                }, 200f, 189.59f, 800f, 500f, (200f + 189.59f + 800f + 500f)},
+                {new Object[][]{
+                        {
+                                "Contribuicao Compulsoria", 1000f,
+                                "Pedrinho", "03/08/2019",
+                                500f,
+                                "FAPI", 300f
+                        },
+                        {
+                                "Outra contribuicao oficial", 200f,
+                                "Joaozinho", "13/02/2021",
+                                800f,
+                                "Funpresp", 500f
+                        },
+                }, 1200f, 379.18f, 1300f, 800f, (1200f+379.18f+1300f+800f)},
+        };
+        return Arrays.asList(parametros);
     }
 
     @Test
-    public void cadastroPrevidenciaOficial2() {
-        simulador.cadastrarPrevidenciaOficial("Outra contribuicao oficial", 200f);
-        assertEquals(200f, simulador.getDeducaoOficialTotal(), 0f);
-    }
+    @Category(TesteFuncional.class)
+    public void cadastroPrevidenciasOficiais() {
 
-
-    @Test
-    public void cadastroDependentePedrinho(){
-        Calendar dataNascimento = Calendar.getInstance();
-        dataNascimento.set(2017,3,17);
-
-        simulador.cadastrarDependentes("Pedrinho", dataNascimento );
-        assertEquals(189.59f, simulador.getTotalValorDependentes(), 0f);
-
+        for (Object[] contribuicao : contribuicoes){
+            simulador.cadastrarPrevidenciaOficial((String)contribuicao[0], (float)contribuicao[1]);
+        }
+        assertEquals(resultadoDeducoesOficial, simulador.getDeducaoOficialTotal(), 0f);
     }
 
     @Test
-    public void cadastroDependenteJoaozinho(){
-        Calendar dataNascimento = Calendar.getInstance();
-        dataNascimento.set(2020,8,19);
+    @Category(TesteFuncional.class)
+    public void cadastroDeducaoPorDependentes() {
 
-        simulador.cadastrarDependentes("Joaozinho", dataNascimento );
-        assertEquals(189.59f, simulador.getTotalValorDependentes(), 0f);
-
+        for (Object[] contribuicao : contribuicoes){
+            simulador.cadastrarDependentes((String)contribuicao[2], (String)contribuicao[3]);
+        }
+        assertEquals(resultadoDependentes, simulador.getTotalValorDependentes(), 0f);
     }
 
     @Test
-    public void cadastroDePensaoAlimenticia1() {
-        simulador.cadastrarPensaoAlimenticia(500f);
-        assertEquals(500f, simulador.getDeducaoAlimenticiaTotal(), 0f);
+    @Category(TesteFuncional.class)
+    public void cadastroPensaoAlimenticia() {
+
+        for (Object[] contribuicao : contribuicoes){
+            simulador.cadastrarPensaoAlimenticia((float)contribuicao[4]);
+        }
+        assertEquals(resultadoPensao, simulador.getDeducaoAlimenticiaTotal(), 0f);
     }
 
     @Test
-    public void cadastroDePensaoAlimenticia2() {
-        simulador.cadastrarPensaoAlimenticia(1000f);
-        assertEquals(1000f, simulador.getDeducaoAlimenticiaTotal(), 0f);
+    @Category(TesteFuncional.class)
+    public void cadastroOutrasDeducoes() {
+
+        for (Object[] contribuicao : contribuicoes){
+            simulador.cadastrarOutrasDeducoes((String)contribuicao[5], (float)contribuicao[6]);
+        }
+        assertEquals(resultadoOutrasDeducoes, simulador.getOutrasDeducoesTotal(), 0f);
     }
 
     @Test
-    public void cadastroFunprestDeducoes() {
-        simulador.cadastrarOutrasDeducoes( "Funpresp", 800.00f);
-        assertEquals(800.00, simulador.getOutrasDeducoesTotal(), 0f);
+    @Category(TesteFuncional.class)
+    public void resultadoDeducaoTotal() {
+
+        for (Object[] contribuicao : contribuicoes){
+            simulador.cadastrarPrevidenciaOficial((String)contribuicao[0], (float)contribuicao[1]);
+            simulador.cadastrarDependentes((String)contribuicao[2], (String)contribuicao[3]);
+            simulador.cadastrarPensaoAlimenticia((float)contribuicao[4]);
+            simulador.cadastrarOutrasDeducoes((String)contribuicao[5], (float)contribuicao[6]);
+        }
+        assertEquals(resultadoDeducaoTotal, simulador.getDeducaoTotal(), 0f);
     }
 
-    @Test
-    public void cadastroFAPIDeducoes() {
-        simulador.cadastrarOutrasDeducoes( "Fapi", 400.00f);
-        assertEquals(400.00, simulador.getOutrasDeducoesTotal(), 0f);
+
+
+    /*
+    for (Object[] contribuicao : contribuicoes){
+        simulador.cadastrarPrevidenciaOficial((String)contribuicao[0], (float)contribuicao[1]);
+        simulador.cadastrarDependentes((String)contribuicao[2], (String)contribuicao[3]);
+        simulador.cadastrarPensaoAlimenticia((float)contribuicao[4]);
+        simulador.cadastrarOutrasDeducoes((String)contribuicao[5], (float)contribuicao[6]);
     }
 
-    @Test
-    public void obterValorTotalDeDeducoes1() {
-        Calendar dataNascimento = Calendar.getInstance();
-        dataNascimento.set(2017,3,17);
+    // assertEquals(resultadoDeducoesOficial, simulador.getDeducaoOficialTotal(), 0f);
+    // assertEquals(resultadoDependentes, simulador.getTotalValorDependentes(), 0f);
+    // assertEquals(resultadoPensao, simulador.getDeducaoAlimenticiaTotal(), 0f);
+    // assertEquals(resultadoOutrasDeducoes, simulador.getOutrasDeducoesTotal(), 0f);
+    // assertEquals(resultadoDeducaoTotal, simulador.getDeducaoTotal(), 0f);
 
-        simulador.cadastrarPrevidenciaOficial("Contribuicao compulsoria", 1000f);
-        simulador.cadastrarPensaoAlimenticia(500f);
-        simulador.cadastrarDependentes("Pedrinho Matador", dataNascimento );
-        simulador.cadastrarOutrasDeducoes( "Funpresp", 800.00f);
+    */
 
-        assertEquals((1000f+500f+189.59f+800f), simulador.getDeducaoTotal(), 0f);
-    }
-
-    @Test
-    public void obterValorTotalDeDeducoes2() {
-        Calendar dataNascimento = Calendar.getInstance();
-        dataNascimento.set(2020,8,19);
-
-        simulador.cadastrarPrevidenciaOficial("Contribuicao compulsoria", 400f);
-        simulador.cadastrarPensaoAlimenticia(100f);
-        simulador.cadastrarDependentes("Suzane Matadora", dataNascimento );
-        simulador.cadastrarOutrasDeducoes( "FAPI", 300.00f);
-
-        assertEquals((400f+100f+189.59f+300.00f), simulador.getDeducaoTotal(), 0f);
-    }
 }

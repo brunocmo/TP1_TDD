@@ -9,22 +9,23 @@ public class CalculoIRPF {
     private float rendimentoTotal;
     private List<Rendimentos> rendimentos;
 
-
     private float deducaoTotal;
     private float deducaoAlimenticiaTotal;
 
     private float deducaoOficialTotal;
-    private String nomeDeducoes;
+    private List<PrevidenciaOficial> previdenciaOficial;
 
     private String nomeDependente;
-    private Calendar dataNascimento;
+    private String dataNascimento;
     private int qtdDependentes;
     
-    private String nomeOutraDeducao;
-    private float deducaoOutraDeducoes;
+    private float deducaoOutraDeducoesTotal;
+    private List<OutrasDeducoes> outrasDeducoes;
 
     public CalculoIRPF() {
         rendimentos = new LinkedList<Rendimentos>();
+        previdenciaOficial = new LinkedList<PrevidenciaOficial>();
+        outrasDeducoes = new LinkedList<OutrasDeducoes>();
     }
 
     public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) throws DescricaoEmBrancoException {
@@ -49,25 +50,28 @@ public class CalculoIRPF {
     public float getDeducaoTotal() {
         float resultado;
 
-        resultado = deducaoOficialTotal + getTotalValorDependentes() + deducaoAlimenticiaTotal + deducaoOutraDeducoes;
+        resultado = deducaoOficialTotal + getTotalValorDependentes() + deducaoAlimenticiaTotal + deducaoOutraDeducoesTotal;
 
         return resultado;
     }
 
     public float getDeducaoAlimenticiaTotal() { return deducaoAlimenticiaTotal; };
     public float getDeducaoOficialTotal() { return  deducaoOficialTotal; };
-    public float getOutrasDeducoesTotal() { return deducaoOutraDeducoes; };
+    public float getOutrasDeducoesTotal() { return deducaoOutraDeducoesTotal; };
 
     public void cadastrarPrevidenciaOficial(String nomeContribuicaoOficial, float valorDeducao) {
-        this.deducaoOficialTotal = valorDeducao;
-        this.nomeDeducoes = nomeContribuicaoOficial;
+        PrevidenciaOficial novaPrevidencia = new PrevidenciaOficial(nomeContribuicaoOficial, valorDeducao);
+
+        this.previdenciaOficial.add(novaPrevidencia);
+        this.deducaoOficialTotal += valorDeducao;
+
     }
 
     public void cadastrarPensaoAlimenticia(float valorPensao) {
-        this.deducaoAlimenticiaTotal = valorPensao;
+        this.deducaoAlimenticiaTotal += valorPensao;
     }
 
-    public void cadastrarDependentes(String nomeDependente, Calendar dataNascimento) {
+    public void cadastrarDependentes(String nomeDependente, String dataNascimento) {
         this.qtdDependentes += 1;
         this.nomeDependente = nomeDependente;
         this.dataNascimento = dataNascimento;
@@ -79,7 +83,8 @@ public class CalculoIRPF {
     }
 
     public void cadastrarOutrasDeducoes(String nomeOutraDeducao, float valorOutraDeducoes) {
-        this.nomeOutraDeducao = nomeOutraDeducao;
-        this.deducaoOutraDeducoes = valorOutraDeducoes;
+        OutrasDeducoes novaDeducao = new OutrasDeducoes(nomeOutraDeducao, valorOutraDeducoes);
+        outrasDeducoes.add(novaDeducao);
+        this.deducaoOutraDeducoesTotal += valorOutraDeducoes;
     }
 }
