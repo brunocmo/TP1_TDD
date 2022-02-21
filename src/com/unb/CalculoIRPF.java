@@ -1,8 +1,10 @@
 package com.unb;
 
+
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class CalculoIRPF {
 
@@ -26,6 +28,7 @@ public class CalculoIRPF {
         rendimentos = new LinkedList<Rendimentos>();
         previdenciaOficial = new LinkedList<PrevidenciaOficial>();
         outrasDeducoes = new LinkedList<OutrasDeducoes>();
+
     }
 
     public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) throws DescricaoEmBrancoException {
@@ -75,6 +78,7 @@ public class CalculoIRPF {
         this.qtdDependentes += 1;
         this.nomeDependente = nomeDependente;
         this.dataNascimento = dataNascimento;
+
     }
 
     public float getTotalValorDependentes() {
