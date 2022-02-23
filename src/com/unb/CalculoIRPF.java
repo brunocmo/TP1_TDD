@@ -81,9 +81,15 @@ public class CalculoIRPF {
     }
 
     public void cadastrarDependentes(String nomeDependente, String dataNascimento) {
-        this.qtdDependentes += 1;
-        this.nomeDependente = nomeDependente;
-        this.dataNascimento = dataNascimento;
+
+        if( nomeDependente == "" && dataNascimento == "") {
+            this.qtdDependentes += 0;
+        }else {
+
+            this.qtdDependentes += 1;
+            this.nomeDependente = nomeDependente;
+            this.dataNascimento = dataNascimento;
+        }
 
     }
 
@@ -106,11 +112,45 @@ public class CalculoIRPF {
 
         float baseDeCalculo = calcularBase();
 
-        this.primeiraFaixa = 1903.98f;
-        this.segundaFaixa = 922.67f;
-        this.terceiraFaixa = 924.40f;
-        this.quartaFaixa = 913.63f;
-        this.quintaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f + 913.63f);
+        if (baseDeCalculo <= 1903.98f) {
+            this.primeiraFaixa = baseDeCalculo;
+            this.segundaFaixa = 0;
+            this.terceiraFaixa = 0;
+            this.quartaFaixa = 0;
+            this.quintaFaixa = 0;
+        } else {
+            if (baseDeCalculo > 1903.98f && baseDeCalculo <= 2826.65f) {
+                this.primeiraFaixa = 1903.98f;
+                this.segundaFaixa = baseDeCalculo - 1903.98f;
+                this.terceiraFaixa = 0;
+                this.quartaFaixa = 0;
+                this.quintaFaixa = 0;
+            } else {
+                if (baseDeCalculo > 2826.65f && baseDeCalculo <= 3751.05f) {
+                    this.primeiraFaixa = 1903.98f;
+                    this.segundaFaixa = 922.67f;
+                    this.terceiraFaixa = baseDeCalculo - (1903.98f + 922.67f);
+                    this.quartaFaixa = 0;
+                    this.quintaFaixa = 0;
+                } else {
+                    if (baseDeCalculo > 3751.05f && baseDeCalculo <= 4664.68f) {
+                        this.primeiraFaixa = 1903.98f;
+                        this.segundaFaixa = 922.67f;
+                        this.terceiraFaixa = 924.40f;
+                        this.quartaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f);
+                        this.quintaFaixa = 0;
+                    } else {
+                        this.primeiraFaixa = 1903.98f;
+                        this.segundaFaixa = 922.67f;
+                        this.terceiraFaixa = 924.40f;
+                        this.quartaFaixa = 913.63f;
+                        this.quintaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f + 913.63f);
+                    }
+
+                }
+            }
+
+        }
     }
 
     public float getPrimeiraFaixa() {
