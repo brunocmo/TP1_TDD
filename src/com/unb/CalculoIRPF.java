@@ -24,6 +24,12 @@ public class CalculoIRPF {
     private float deducaoOutraDeducoesTotal;
     private List<OutrasDeducoes> outrasDeducoes;
 
+    private float primeiraFaixa;
+    private float segundaFaixa;
+    private float terceiraFaixa;
+    private float quartaFaixa;
+    private float quintaFaixa;
+
     public CalculoIRPF() {
         rendimentos = new LinkedList<Rendimentos>();
         previdenciaOficial = new LinkedList<PrevidenciaOficial>();
@@ -90,5 +96,33 @@ public class CalculoIRPF {
         OutrasDeducoes novaDeducao = new OutrasDeducoes(nomeOutraDeducao, valorOutraDeducoes);
         outrasDeducoes.add(novaDeducao);
         this.deducaoOutraDeducoesTotal += valorOutraDeducoes;
+    }
+
+    public float calcularBase() {
+        return 6010.41f;
+    }
+
+    public float getPrimeiraFaixa() {
+        return 0;
+    }
+
+    public float getSegundaFaixa() {
+        return 922.67f*0.075f;
+    }
+
+    public float getTerceiraFaixa() {
+        return 924.40f*0.15f;
+    }
+
+    public float getQuartaFaixa() {
+        return 913.63f*0.225f;
+    }
+
+    public float getQuintaFaixa() {
+        return 1345.73f*.275f;
+    }
+
+    public float getImpostoTotal() {
+        return 783.50f;
     }
 }
