@@ -99,7 +99,18 @@ public class CalculoIRPF {
     }
 
     public float calcularBase() {
-        return 6010.41f;
+        return getRendimentoTotal() - getDeducaoTotal();
+    }
+
+    public void calcularImposto() {
+
+        float baseDeCalculo = calcularBase();
+
+        this.primeiraFaixa = 1903.98f;
+        this.segundaFaixa = 922.67f;
+        this.terceiraFaixa = 924.40f;
+        this.quartaFaixa = 913.63f;
+        this.quintaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f + 913.63f);
     }
 
     public float getPrimeiraFaixa() {
@@ -107,22 +118,22 @@ public class CalculoIRPF {
     }
 
     public float getSegundaFaixa() {
-        return 922.67f*0.075f;
+        return this.segundaFaixa*0.075f;
     }
 
     public float getTerceiraFaixa() {
-        return 924.40f*0.15f;
+        return this.terceiraFaixa*0.15f;
     }
 
     public float getQuartaFaixa() {
-        return 913.63f*0.225f;
+        return this.quartaFaixa*0.225f;
     }
 
     public float getQuintaFaixa() {
-        return 1345.73f*.275f;
+        return this.quintaFaixa*.275f;
     }
 
     public float getImpostoTotal() {
-        return 783.50f;
+        return (getSegundaFaixa() + getTerceiraFaixa() + getQuartaFaixa() + getQuintaFaixa());
     }
 }
