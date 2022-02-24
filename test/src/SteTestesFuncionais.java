@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
         CadastroRendimentoTestFuncionais.class,
         CadastroRendimentoTestExcecoes.class,
         CadastroDeducoesTestFuncionais.class,
-        CalculoImpostoFaixas.class
+        CalculoImpostoFaixas.class,
+        CalculoAliquotaEfetiva.class
 })
 @Categories.IncludeCategory(TesteFuncional.class)
 @Categories.ExcludeCategory(TesteExececao.class)

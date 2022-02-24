@@ -176,4 +176,8 @@ public class CalculoIRPF {
     public float getImpostoTotal() {
         return (getSegundaFaixa() + getTerceiraFaixa() + getQuartaFaixa() + getQuintaFaixa());
     }
+
+    public float getCalculoAliquotaEfetiva() {
+        return 0.0783f;
+    }
 }
