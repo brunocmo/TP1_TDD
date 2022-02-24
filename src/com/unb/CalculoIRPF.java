@@ -178,6 +178,6 @@ public class CalculoIRPF {
     }
 
     public float getCalculoAliquotaEfetiva() {
-        return 0.0783f;
+        return getImpostoTotal()/getRendimentoTotal();
     }
 }
