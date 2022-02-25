@@ -69,6 +69,12 @@ public class CalculoIRPF {
     public float getOutrasDeducoesTotal() { return deducaoOutraDeducoesTotal; };
 
     public void cadastrarPrevidenciaOficial(String nomeContribuicaoOficial, float valorDeducao) {
+        if( nomeContribuicaoOficial == "" || nomeContribuicaoOficial == null) {
+            throw new DescricaoEmBrancoException();
+        }
+        if( valorDeducao <= 0 ) {
+            throw new ValorDeducaoInvalidoException();
+        }
         PrevidenciaOficial novaPrevidencia = new PrevidenciaOficial(nomeContribuicaoOficial, valorDeducao);
 
         this.previdenciaOficial.add(novaPrevidencia);
@@ -77,6 +83,9 @@ public class CalculoIRPF {
     }
 
     public void cadastrarPensaoAlimenticia(float valorPensao) {
+        if( valorPensao < 0 ) {
+            throw new ValorDeducaoInvalidoException();
+        }
         this.deducaoAlimenticiaTotal += valorPensao;
     }
 
@@ -84,7 +93,9 @@ public class CalculoIRPF {
 
         if( nomeDependente == "" && dataNascimento == "") {
             this.qtdDependentes += 0;
-        }else {
+        }else if ( nomeDependente == "" ) {
+            throw new NomeEmBrancoException();
+        } else {
 
             this.qtdDependentes += 1;
             this.nomeDependente = nomeDependente;
@@ -99,6 +110,12 @@ public class CalculoIRPF {
     }
 
     public void cadastrarOutrasDeducoes(String nomeOutraDeducao, float valorOutraDeducoes) {
+        if( nomeOutraDeducao == "" || nomeOutraDeducao == null) {
+            throw new DescricaoEmBrancoException();
+        }
+        if( valorOutraDeducoes <= 0 ) {
+            throw new ValorDeducaoInvalidoException();
+        }
         OutrasDeducoes novaDeducao = new OutrasDeducoes(nomeOutraDeducao, valorOutraDeducoes);
         outrasDeducoes.add(novaDeducao);
         this.deducaoOutraDeducoesTotal += valorOutraDeducoes;

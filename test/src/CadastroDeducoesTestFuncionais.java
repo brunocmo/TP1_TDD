@@ -1,4 +1,5 @@
 import com.unb.CalculoIRPF;
+import com.unb.DescricaoEmBrancoException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -133,8 +134,6 @@ public class CadastroDeducoesTestFuncionais {
         }
         assertEquals(resultadoDeducaoTotal, simulador.getDeducaoTotal(), 0f);
     }
-
-
 
     /*
     for (Object[] contribuicao : contribuicoes){
