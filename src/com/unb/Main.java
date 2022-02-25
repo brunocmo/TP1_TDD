@@ -40,9 +40,9 @@ public class Main {
 
         for (int j = 0; j < numeroRendimentos; j++) {
 
-            nomeRendimento = JOptionPane.showInputDialog("Informe o nome do seu do sua previdencia oficial:");
+            nomeRendimento = JOptionPane.showInputDialog("Informe o nome da sua previdencia oficial:");
 
-            String wow = JOptionPane.showInputDialog("Informe o valor do seu do seu previdencia oficial:");
+            String wow = JOptionPane.showInputDialog("Informe o valor da sua previdencia oficial:");
             previdenciaOficial = Float.parseFloat(wow);
 
             c.cadastrarPrevidenciaOficial(nomeRendimento, previdenciaOficial);
@@ -57,17 +57,11 @@ public class Main {
             String strDA1 = JOptionPane.showInputDialog("Informe o nome do seu Dependente:");
             nomeDependente = strDA1;
 
-            String strDA2 = JOptionPane.showInputDialog("Informe a data de nascimento:");
+            String strDA2 = JOptionPane.showInputDialog("Informe a data de nascimento do dependente:");
             dataNascimento = strDA2;
 
             c.cadastrarDependentes(nomeDependente, dataNascimento);
         }
-
-        //float valorDeducaoDependentes = c.getTotalValorDependentes();
-
-        //ler.nextLine();
-        //System.out.printf("Valor de dedução Dependentes: R$ %.2f", valorDeducaoDependentes);
-        //ler.nextLine();
 
         String strEA0 = JOptionPane.showInputDialog("Informe o valor gasto com Pensão Alimentícia:");
         valorPensaoAlimenticia = Float.parseFloat(strEA0);
@@ -78,7 +72,7 @@ public class Main {
         numeroOutrasDeducoes = Integer.parseInt(strEA1);
 
         for (int i = 0; i < numeroOutrasDeducoes; i++) {
-            outrasDeducoes = JOptionPane.showInputDialog("Informe o nome da seu outro tipo de Dedução:");
+            outrasDeducoes = JOptionPane.showInputDialog("Informe o nome do outro tipo de Dedução:");
             String strJA2 = JOptionPane.showInputDialog("Informe o valor dessa dedução:");
             valorOutrasDedudoes = Float.parseFloat(strJA2);
 
@@ -109,6 +103,5 @@ public class Main {
         System.out.println("==========================================");
         System.out.printf("Imposto : R$ %.2f%n", valorImposto);
         System.out.printf("Aliquota Efetiva: %.2f %%", aliquotaEfetiva * 100);
-        
     }
 }
