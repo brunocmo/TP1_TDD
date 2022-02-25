@@ -1,4 +1,4 @@
 package com.unb;
 
-public class ValorRendimentoInvalidoException extends IllegalArgumentException  {
+public class ValorRendimentoInvalidoException extends IllegalArgumentException{
 }

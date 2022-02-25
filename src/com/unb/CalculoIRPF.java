@@ -24,6 +24,12 @@ public class CalculoIRPF {
     private float deducaoOutraDeducoesTotal;
     private List<OutrasDeducoes> outrasDeducoes;
 
+    private float primeiraFaixa;
+    private float segundaFaixa;
+    private float terceiraFaixa;
+    private float quartaFaixa;
+    private float quintaFaixa;
+
     public CalculoIRPF() {
         rendimentos = new LinkedList<Rendimentos>();
         previdenciaOficial = new LinkedList<PrevidenciaOficial>();
@@ -63,6 +69,12 @@ public class CalculoIRPF {
     public float getOutrasDeducoesTotal() { return deducaoOutraDeducoesTotal; };
 
     public void cadastrarPrevidenciaOficial(String nomeContribuicaoOficial, float valorDeducao) {
+        if( nomeContribuicaoOficial == "" || nomeContribuicaoOficial == null) {
+            throw new DescricaoEmBrancoException();
+        }
+        if( valorDeducao <= 0 ) {
+            throw new ValorDeducaoInvalidoException();
+        }
         PrevidenciaOficial novaPrevidencia = new PrevidenciaOficial(nomeContribuicaoOficial, valorDeducao);
 
         this.previdenciaOficial.add(novaPrevidencia);
@@ -71,13 +83,24 @@ public class CalculoIRPF {
     }
 
     public void cadastrarPensaoAlimenticia(float valorPensao) {
+        if( valorPensao < 0 ) {
+            throw new ValorDeducaoInvalidoException();
+        }
         this.deducaoAlimenticiaTotal += valorPensao;
     }
 
     public void cadastrarDependentes(String nomeDependente, String dataNascimento) {
-        this.qtdDependentes += 1;
-        this.nomeDependente = nomeDependente;
-        this.dataNascimento = dataNascimento;
+
+        if( nomeDependente == "" && dataNascimento == "") {
+            this.qtdDependentes += 0;
+        }else if ( nomeDependente == "" ) {
+            throw new NomeEmBrancoException();
+        } else {
+
+            this.qtdDependentes += 1;
+            this.nomeDependente = nomeDependente;
+            this.dataNascimento = dataNascimento;
+        }
 
     }
 
@@ -87,8 +110,91 @@ public class CalculoIRPF {
     }
 
     public void cadastrarOutrasDeducoes(String nomeOutraDeducao, float valorOutraDeducoes) {
+        if( nomeOutraDeducao == "" || nomeOutraDeducao == null) {
+            throw new DescricaoEmBrancoException();
+        }
+        if( valorOutraDeducoes <= 0 ) {
+            throw new ValorDeducaoInvalidoException();
+        }
         OutrasDeducoes novaDeducao = new OutrasDeducoes(nomeOutraDeducao, valorOutraDeducoes);
         outrasDeducoes.add(novaDeducao);
         this.deducaoOutraDeducoesTotal += valorOutraDeducoes;
+    }
+
+    public float calcularBase() {
+        return getRendimentoTotal() - getDeducaoTotal();
+    }
+
+    public void calcularImposto() {
+
+        float baseDeCalculo = calcularBase();
+
+        if (baseDeCalculo <= 1903.98f) {
+            this.primeiraFaixa = baseDeCalculo;
+            this.segundaFaixa = 0;
+            this.terceiraFaixa = 0;
+            this.quartaFaixa = 0;
+            this.quintaFaixa = 0;
+        } else {
+            if (baseDeCalculo > 1903.98f && baseDeCalculo <= 2826.65f) {
+                this.primeiraFaixa = 1903.98f;
+                this.segundaFaixa = baseDeCalculo - 1903.98f;
+                this.terceiraFaixa = 0;
+                this.quartaFaixa = 0;
+                this.quintaFaixa = 0;
+            } else {
+                if (baseDeCalculo > 2826.65f && baseDeCalculo <= 3751.05f) {
+                    this.primeiraFaixa = 1903.98f;
+                    this.segundaFaixa = 922.67f;
+                    this.terceiraFaixa = baseDeCalculo - (1903.98f + 922.67f);
+                    this.quartaFaixa = 0;
+                    this.quintaFaixa = 0;
+                } else {
+                    if (baseDeCalculo > 3751.05f && baseDeCalculo <= 4664.68f) {
+                        this.primeiraFaixa = 1903.98f;
+                        this.segundaFaixa = 922.67f;
+                        this.terceiraFaixa = 924.40f;
+                        this.quartaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f);
+                        this.quintaFaixa = 0;
+                    } else {
+                        this.primeiraFaixa = 1903.98f;
+                        this.segundaFaixa = 922.67f;
+                        this.terceiraFaixa = 924.40f;
+                        this.quartaFaixa = 913.63f;
+                        this.quintaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f + 913.63f);
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    public float getPrimeiraFaixa() {
+        return 0;
+    }
+
+    public float getSegundaFaixa() {
+        return this.segundaFaixa*0.075f;
+    }
+
+    public float getTerceiraFaixa() {
+        return this.terceiraFaixa*0.15f;
+    }
+
+    public float getQuartaFaixa() {
+        return this.quartaFaixa*0.225f;
+    }
+
+    public float getQuintaFaixa() {
+        return this.quintaFaixa*.275f;
+    }
+
+    public float getImpostoTotal() {
+        return (getSegundaFaixa() + getTerceiraFaixa() + getQuartaFaixa() + getQuintaFaixa());
+    }
+
+    public float getCalculoAliquotaEfetiva() {
+        return getImpostoTotal()/getRendimentoTotal();
     }
 }
