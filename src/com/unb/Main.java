@@ -15,7 +15,7 @@ public class Main {
         CalculoIRPF c = new CalculoIRPF();
 
         System.out.println("Calculadora IRPF");
-        try {
+
             System.out.println("Informe o nome do seu do seu rendimento bruto:");
             nomeRendimento = ler.next();
 
@@ -61,7 +61,6 @@ public class Main {
                 c.cadastrarOutrasDeducoes(outrasDeducoes, valorOutrasDedudoes);
             }
 
-
             c.calcularImposto();
 
             float valorSegundaFaixa = c.getSegundaFaixa();
@@ -79,10 +78,6 @@ public class Main {
 
             System.out.printf("Imposto : R$ %.2f%n", valorImposto);
             System.out.printf("Aliquota Efetiva: %.2f%n %%", aliquotaEfetiva * 100);
-
-        }catch(Exception e){
-
-        }
 
 
 
