@@ -13,10 +13,9 @@ public class CalcularImposto  {
     public static final float CAIUTERCEIRAFAIXA = PRIMEIRAFAIXA + SEGUNDAFAIXA + TERCEIRAFAIXA;
     public static final float CAIUQUARTAFAIXA = PRIMEIRAFAIXA + SEGUNDAFAIXA + TERCEIRAFAIXA + QUARTAFAIXA;
 
+    private CalculoIRPF fonte;
 
-    CalculoIRPF fonte;
-
-    float[] faixas = {
+    private float[] faixas = {
             ZEROIMPOSTO,
             ZEROIMPOSTO,
             ZEROIMPOSTO,
@@ -24,7 +23,7 @@ public class CalcularImposto  {
             ZEROIMPOSTO
     };
 
-    float baseDeCalculo;
+    private float baseDeCalculo;
 
     public CalcularImposto (CalculoIRPF fonte){
         this.fonte = fonte;
@@ -34,28 +33,18 @@ public class CalcularImposto  {
         baseDeCalculo = fonte.calcularBase();
 
         if (baseDeCalculo <= PRIMEIRAFAIXA) {
-            faixas[0] = baseDeCalculo;
+            caiuPrimeiraFaixa();
         } else {
             if (baseDeCalculo > PRIMEIRAFAIXA && baseDeCalculo <= CAIUSEGUNDAFAIXA) {
-                faixas[0] = PRIMEIRAFAIXA;
-                faixas[1] = baseDeCalculo - PRIMEIRAFAIXA;
+                caiuSegundaFaixa();
             } else {
                 if (baseDeCalculo > CAIUSEGUNDAFAIXA && baseDeCalculo <= CAIUTERCEIRAFAIXA) {
-                    faixas[0] = PRIMEIRAFAIXA;
-                    faixas[1] = SEGUNDAFAIXA;
-                    faixas[2] = baseDeCalculo - CAIUSEGUNDAFAIXA;
+                    caiuTerceiraFaixa();
                 } else {
                     if (baseDeCalculo > CAIUTERCEIRAFAIXA && baseDeCalculo <= CAIUQUARTAFAIXA) {
-                        faixas[0] = PRIMEIRAFAIXA;
-                        faixas[1] = SEGUNDAFAIXA;
-                        faixas[2] = TERCEIRAFAIXA;
-                        faixas[3] = baseDeCalculo - CAIUTERCEIRAFAIXA;
+                        caiuQuartaFaixa();
                     } else {
-                        faixas[0] = PRIMEIRAFAIXA;
-                        faixas[1] = SEGUNDAFAIXA;
-                        faixas[2] = TERCEIRAFAIXA;
-                        faixas[3] = QUARTAFAIXA;
-                        faixas[4] = baseDeCalculo - CAIUQUARTAFAIXA;
+                        caiuQuintaFaixa();
                     }
                 }
             }
@@ -66,5 +55,35 @@ public class CalcularImposto  {
         fonte.setTerceiraFaixa(faixas[2]);
         fonte.setQuartaFaixa(faixas[3]);
         fonte.setQuintaFaixa(faixas[4]);
+    }
+
+    private void caiuQuintaFaixa() {
+        faixas[0] = PRIMEIRAFAIXA;
+        faixas[1] = SEGUNDAFAIXA;
+        faixas[2] = TERCEIRAFAIXA;
+        faixas[3] = QUARTAFAIXA;
+        faixas[4] = baseDeCalculo - CAIUQUARTAFAIXA;
+    }
+
+    private void caiuQuartaFaixa() {
+        faixas[0] = PRIMEIRAFAIXA;
+        faixas[1] = SEGUNDAFAIXA;
+        faixas[2] = TERCEIRAFAIXA;
+        faixas[3] = baseDeCalculo - CAIUTERCEIRAFAIXA;
+    }
+
+    private void caiuTerceiraFaixa() {
+        faixas[0] = PRIMEIRAFAIXA;
+        faixas[1] = SEGUNDAFAIXA;
+        faixas[2] = baseDeCalculo - CAIUSEGUNDAFAIXA;
+    }
+
+    private void caiuSegundaFaixa() {
+        faixas[0] = PRIMEIRAFAIXA;
+        faixas[1] = baseDeCalculo - PRIMEIRAFAIXA;
+    }
+
+    private void caiuPrimeiraFaixa() {
+        faixas[0] = baseDeCalculo;
     }
 }
