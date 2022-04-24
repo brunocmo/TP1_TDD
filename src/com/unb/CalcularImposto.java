@@ -4,6 +4,7 @@ public class CalcularImposto  {
 
     CalculoIRPF fonte;
     
+    // um teste
     float[] faixas = {0f, 0f, 0f, 0f, 0f};
     float baseDeCalculo;
 
