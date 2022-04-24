@@ -37,19 +37,28 @@ public class CalculoIRPF {
 
     }
 
-    public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal) throws DescricaoEmBrancoException {
-
-        if( nomeDoRendimento == "" || nomeDoRendimento == null) {
-            throw new DescricaoEmBrancoException();
-        }
-
+    public void validaValorRendimentoTotal(float rendimentoTotal) throws ValorRendimentoInvalidoException{
         if( rendimentoTotal <= 0 ) {
             throw new ValorRendimentoInvalidoException();
         }
+    }
 
+    public void validaNomeDoRendimento(String nomeDoRendimento)throws DescricaoEmBrancoException{
+        if( nomeDoRendimento == "" || nomeDoRendimento == null) {
+            throw new DescricaoEmBrancoException();
+        }
+    }
+
+    public void adicionaNovoRendimentoNaListaDeRendimentos(String nomeDoRendimento, float rendimentoTotal){
         Rendimentos novoRendimento = new Rendimentos(nomeDoRendimento, rendimentoTotal);
         this.rendimentos.add(novoRendimento);
         this.rendimentoTotal += rendimentoTotal;
+    }
+
+    public void cadastrarRendimento(String nomeDoRendimento, float rendimentoTotal){
+        validaNomeDoRendimento(nomeDoRendimento);
+        validaValorRendimentoTotal(rendimentoTotal);
+        adicionaNovoRendimentoNaListaDeRendimentos(nomeDoRendimento, rendimentoTotal);
     }
 
     public float getRendimentoTotal() {
