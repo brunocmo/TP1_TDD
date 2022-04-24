@@ -135,68 +135,46 @@ public class CalculoIRPF {
     }
 
     public void calcularImposto() {
-
-        float baseDeCalculo = calcularBase();
-
-        if (baseDeCalculo <= 1903.98f) {
-            this.primeiraFaixa = baseDeCalculo;
-            this.segundaFaixa = 0;
-            this.terceiraFaixa = 0;
-            this.quartaFaixa = 0;
-            this.quintaFaixa = 0;
-        } else {
-            if (baseDeCalculo > 1903.98f && baseDeCalculo <= 2826.65f) {
-                this.primeiraFaixa = 1903.98f;
-                this.segundaFaixa = baseDeCalculo - 1903.98f;
-                this.terceiraFaixa = 0;
-                this.quartaFaixa = 0;
-                this.quintaFaixa = 0;
-            } else {
-                if (baseDeCalculo > 2826.65f && baseDeCalculo <= 3751.05f) {
-                    this.primeiraFaixa = 1903.98f;
-                    this.segundaFaixa = 922.67f;
-                    this.terceiraFaixa = baseDeCalculo - (1903.98f + 922.67f);
-                    this.quartaFaixa = 0;
-                    this.quintaFaixa = 0;
-                } else {
-                    if (baseDeCalculo > 3751.05f && baseDeCalculo <= 4664.68f) {
-                        this.primeiraFaixa = 1903.98f;
-                        this.segundaFaixa = 922.67f;
-                        this.terceiraFaixa = 924.40f;
-                        this.quartaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f);
-                        this.quintaFaixa = 0;
-                    } else {
-                        this.primeiraFaixa = 1903.98f;
-                        this.segundaFaixa = 922.67f;
-                        this.terceiraFaixa = 924.40f;
-                        this.quartaFaixa = 913.63f;
-                        this.quintaFaixa = baseDeCalculo - (1903.98f + 922.67f + 924.40f + 913.63f);
-                    }
-
-                }
-            }
-
-        }
+        new CalcularImposto(this).calcularFaixas();
     }
 
     public float getPrimeiraFaixa() {
         return 0;
     }
 
+    public void setPrimeiraFaixa(float primeiraFaixa) {
+        this.primeiraFaixa = primeiraFaixa;
+    }
+
     public float getSegundaFaixa() {
         return this.segundaFaixa*0.075f;
     }
 
+    public void setSegundaFaixa(float segundaFaixa) {
+        this.segundaFaixa = segundaFaixa;
+    }
     public float getTerceiraFaixa() {
         return this.terceiraFaixa*0.15f;
+    }
+
+    public void setTerceiraFaixa(float terceiraFaixa) {
+        this.terceiraFaixa = terceiraFaixa;
     }
 
     public float getQuartaFaixa() {
         return this.quartaFaixa*0.225f;
     }
 
+    public void setQuartaFaixa(float quartaFaixa) {
+        this.quartaFaixa = quartaFaixa;
+    }
+
     public float getQuintaFaixa() {
         return this.quintaFaixa*.275f;
+    }
+
+    public void setQuintaFaixa(float quintaFaixa) {
+        this.quintaFaixa = quintaFaixa;
     }
 
     public float getImpostoTotal() {
