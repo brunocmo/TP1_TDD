@@ -7,7 +7,11 @@ import java.util.List;
 
 
 public class CalculoIRPF {
-
+    public static final float PRIMEIRAALIQUOTA = 0f;
+    public static final float SEGUNDAALIQUOTA = 0.075f;
+    public static final float TERCEIRAALIQUOTA = 0.15f;
+    public static final float QUARTAALIQUOTA = 0.225f;
+    public static final float QUINTAALIQUOTA = 0.275f;
     private float rendimentoTotal;
     private List<Rendimentos> rendimentos;
 
@@ -134,12 +138,13 @@ public class CalculoIRPF {
         return getRendimentoTotal() - getDeducaoTotal();
     }
 
+
     public void calcularImposto() {
         new CalcularImposto(this).calcularFaixas();
     }
 
     public float getPrimeiraFaixa() {
-        return 0;
+        return PRIMEIRAALIQUOTA;
     }
 
     public void setPrimeiraFaixa(float primeiraFaixa) {
@@ -147,14 +152,15 @@ public class CalculoIRPF {
     }
 
     public float getSegundaFaixa() {
-        return this.segundaFaixa*0.075f;
+        return this.segundaFaixa* SEGUNDAALIQUOTA;
     }
 
     public void setSegundaFaixa(float segundaFaixa) {
         this.segundaFaixa = segundaFaixa;
     }
+
     public float getTerceiraFaixa() {
-        return this.terceiraFaixa*0.15f;
+        return this.terceiraFaixa* TERCEIRAALIQUOTA;
     }
 
     public void setTerceiraFaixa(float terceiraFaixa) {
@@ -162,7 +168,7 @@ public class CalculoIRPF {
     }
 
     public float getQuartaFaixa() {
-        return this.quartaFaixa*0.225f;
+        return this.quartaFaixa * QUARTAALIQUOTA;
     }
 
     public void setQuartaFaixa(float quartaFaixa) {
@@ -170,7 +176,7 @@ public class CalculoIRPF {
     }
 
     public float getQuintaFaixa() {
-        return this.quintaFaixa*.275f;
+        return this.quintaFaixa * QUINTAALIQUOTA;
     }
 
     public void setQuintaFaixa(float quintaFaixa) {

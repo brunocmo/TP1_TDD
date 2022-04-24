@@ -2,10 +2,28 @@ package com.unb;
 
 public class CalcularImposto  {
 
+    public static final float ZEROIMPOSTO = 0f;
+
+    public static final float PRIMEIRAFAIXA = 1903.98f;
+    public static final float SEGUNDAFAIXA = 922.67f;
+    public static final float TERCEIRAFAIXA = 924.40f;
+    public static final float QUARTAFAIXA = 913.63f;
+
+    public static final float CAIUSEGUNDAFAIXA = PRIMEIRAFAIXA + SEGUNDAFAIXA;
+    public static final float CAIUTERCEIRAFAIXA = PRIMEIRAFAIXA + SEGUNDAFAIXA + TERCEIRAFAIXA;
+    public static final float CAIUQUARTAFAIXA = PRIMEIRAFAIXA + SEGUNDAFAIXA + TERCEIRAFAIXA + QUARTAFAIXA;
+
+
     CalculoIRPF fonte;
-    
-    // um teste
-    float[] faixas = {0f, 0f, 0f, 0f, 0f};
+
+    float[] faixas = {
+            ZEROIMPOSTO,
+            ZEROIMPOSTO,
+            ZEROIMPOSTO,
+            ZEROIMPOSTO,
+            ZEROIMPOSTO
+    };
+
     float baseDeCalculo;
 
     public CalcularImposto (CalculoIRPF fonte){
@@ -15,42 +33,38 @@ public class CalcularImposto  {
     public void calcularFaixas() {
         baseDeCalculo = fonte.calcularBase();
 
-        if (baseDeCalculo <= 1903.98f) {
+        if (baseDeCalculo <= PRIMEIRAFAIXA) {
             faixas[0] = baseDeCalculo;
-
         } else {
-            if (baseDeCalculo > 1903.98f && baseDeCalculo <= 2826.65f) {
-                faixas[0] = 1903.98f;
-                faixas[1] = baseDeCalculo - faixas[0];
-
+            if (baseDeCalculo > PRIMEIRAFAIXA && baseDeCalculo <= CAIUSEGUNDAFAIXA) {
+                faixas[0] = PRIMEIRAFAIXA;
+                faixas[1] = baseDeCalculo - PRIMEIRAFAIXA;
             } else {
-                if (baseDeCalculo > 2826.65f && baseDeCalculo <= 3751.05f) {
-                    faixas[0] = 1903.98f;
-                    faixas[1] = 922.67f;
-                    faixas[2] = baseDeCalculo - (faixas[0] + faixas[1]);
-
+                if (baseDeCalculo > CAIUSEGUNDAFAIXA && baseDeCalculo <= CAIUTERCEIRAFAIXA) {
+                    faixas[0] = PRIMEIRAFAIXA;
+                    faixas[1] = SEGUNDAFAIXA;
+                    faixas[2] = baseDeCalculo - CAIUSEGUNDAFAIXA;
                 } else {
-                    if (baseDeCalculo > 3751.05f && baseDeCalculo <= 4664.68f) {
-                        faixas[0] = 1903.98f;
-                        faixas[1] = 922.67f;
-                        faixas[2] = 924.40f;
-                        faixas[3] = baseDeCalculo - (faixas[0] + faixas[1] + faixas[2]);
+                    if (baseDeCalculo > CAIUTERCEIRAFAIXA && baseDeCalculo <= CAIUQUARTAFAIXA) {
+                        faixas[0] = PRIMEIRAFAIXA;
+                        faixas[1] = SEGUNDAFAIXA;
+                        faixas[2] = TERCEIRAFAIXA;
+                        faixas[3] = baseDeCalculo - CAIUTERCEIRAFAIXA;
                     } else {
-                        faixas[0] = 1903.98f;
-                        faixas[1] = 922.67f;
-                        faixas[2] = 924.40f;
-                        faixas[3] = 913.63f;
-                        faixas[4] = baseDeCalculo - (faixas[0] + faixas[1] + faixas[2] + faixas[3]);
+                        faixas[0] = PRIMEIRAFAIXA;
+                        faixas[1] = SEGUNDAFAIXA;
+                        faixas[2] = TERCEIRAFAIXA;
+                        faixas[3] = QUARTAFAIXA;
+                        faixas[4] = baseDeCalculo - CAIUQUARTAFAIXA;
                     }
-
                 }
             }
-
         }
+
         fonte.setPrimeiraFaixa(faixas[0]);
         fonte.setSegundaFaixa(faixas[1]);
-        fonte.setTerceiraFaixa(faixas[2]); 
+        fonte.setTerceiraFaixa(faixas[2]);
         fonte.setQuartaFaixa(faixas[3]);
-        fonte.setQuintaFaixa(faixas[4]); 
+        fonte.setQuintaFaixa(faixas[4]);
     }
 }
